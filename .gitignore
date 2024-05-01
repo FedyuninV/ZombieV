@@ -16,3 +16,4 @@ ZV/x64/
 *.idb
 
 build/
+install/
