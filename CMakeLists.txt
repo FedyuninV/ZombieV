@@ -16,9 +16,12 @@ file(GLOB source_files
 set(SOURCES ${source_files})
 set(CMAKE_CXX_STANDARD 11)
 
-# Detect and add SFML
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
-find_package(SFML 2 REQUIRED COMPONENTS audio graphics window system)
+# Download SFML and build it from source
+include(FetchContent)
+FetchContent_Declare(SFML
+    GIT_REPOSITORY https://github.com/SFML/SFML.git
+    GIT_TAG 2.6.x)
+FetchContent_MakeAvailable(SFML)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE "include" "lib")
@@ -36,3 +39,6 @@ if(MSVC)
       file(COPY ${lib_path} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
    endforeach()
 endif(MSVC)
+
+install(TARGETS ${PROJECT_NAME})
+install(DIRECTORY "data" DESTINATION ${CMAKE_INSTALL_BINDIR})
