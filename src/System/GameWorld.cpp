@@ -59,19 +59,18 @@ void GameWorld::update()
 
 void GameWorld::_cleanEntities()
 {
-    std::list<WorldEntity*>::iterator it;
-    for (it=_entities.begin(); it!=_entities.end(); ++it)
+    std::list<WorldEntity*>::iterator it = _entities.begin();
+    while (it != _entities.end())
     {
         WorldEntity* entity = *it;
         if (entity->isDying())
         {
             it = _entities.erase(it);
             entity->kill(this);
+            continue;
         }
-        else if (entity->isDone())
-        {
-            entity->setDying();
-        }
+        if (entity->isDone()) entity->setDying();
+        ++it;
     }
 }
 
